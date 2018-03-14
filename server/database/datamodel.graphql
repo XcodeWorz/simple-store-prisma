@@ -1,0 +1,14 @@
+type User {
+  id: ID! @unique
+  name: String!
+  email: String! @unique
+  pw: String!
+}
+
+type Product {
+  id: ID! @unique
+  name: String! @unique
+  imgURL: String
+  desc: String!
+  price: Float!
+}
