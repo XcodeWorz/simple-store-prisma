@@ -20,7 +20,7 @@ class AllProducts extends Component {
 }
 
 const ProductGrid = (allProducts) => (
-    <GridList cols="4" cellHeight="auto" >
+    <GridList cols={4} cellHeight="auto" >
       <Subheader>Products</Subheader>
       {allProducts.map(product =>(
           <GridTile className="tile">

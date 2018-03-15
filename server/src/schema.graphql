@@ -12,6 +12,7 @@ type Mutation {
   updateUser(id: ID!, name: String, email: String): User
   createProduct(name: String!,imgURL: String,desc: String!,price: Float!):Product
   updateProduct(id: ID!,name: String,imgURL: String,desc: String,price: Float):Product
+  deleteProduct(id: ID!): Product
   login(email: String!, pw: String!): AuthPayload
 }
 
