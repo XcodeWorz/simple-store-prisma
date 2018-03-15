@@ -4,7 +4,7 @@ import {graphql} from 'react-apollo'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import '../../styles/CreateProduct.css'
+import '../../styles/ProductForm.css'
 
 class UpdateProduct extends Component {
   constructor(props){
@@ -54,7 +54,7 @@ class UpdateProduct extends Component {
                    type="number"
                    min="0.00" step="0.10" max="30"
         />
-        <RaisedButton label="Create"
+        <RaisedButton label="Update"
                       type="submit"
         />
       </form>
