@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 import '../../styles/CreateProduct.css'
 
-export class CreateProduct extends Component {
+class CreateProduct extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -27,6 +27,7 @@ export class CreateProduct extends Component {
           price: this.state.price
         }
       })
+      // this.context.history.push('/')
       window.location.replace('/')
       // console.log(this.state.name, this.state.imgURL, this.state.desc, this.state.price)
     }

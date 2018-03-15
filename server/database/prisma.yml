@@ -12,3 +12,7 @@ secret: mysecret123
 datamodel: datamodel.graphql
 
 cluster: public-viridianhealer-317/prisma-us1
+
+#cluster: public-firmustang-7/prisma-us1
+
+#cluster: public-beveldeer-370/prisma-us1
