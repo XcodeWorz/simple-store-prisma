@@ -3,6 +3,8 @@ import React, {Component} from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 
+import '../styles/buttons.css'
+
 export class ModalButton extends Component {
   constructor(props) {
     super(props)
@@ -24,7 +26,7 @@ export class ModalButton extends Component {
   render() {
     const {label, display} = this.props
     return (
-      <span>
+      <span className="modal">
         <RaisedButton primary={this.state.primary}
                       secondary={this.state.secondary}
                       label={label}

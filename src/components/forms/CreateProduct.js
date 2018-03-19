@@ -4,7 +4,7 @@ import {graphql} from 'react-apollo'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import '../../styles/ProductForm.css'
+import '../../styles/Form.css'
 
 class CreateProduct extends Component {
   constructor(props){

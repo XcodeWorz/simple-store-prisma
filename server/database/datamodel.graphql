@@ -3,6 +3,19 @@ type User {
   name: String!
   email: String! @unique
   pw: String!
+  cart: Cart
+}
+
+type Cart {
+  id: ID! @unique
+  user: User
+  products: [CartProduct!]!
+}
+
+type CartProduct {
+  id: ID! @unique
+  cart: Cart!
+  product: Product!
 }
 
 type Product {

@@ -16,6 +16,12 @@ const resolvers = {
         info
       )
     },
+    cart(parent, { id }, ctx, info){
+      return ctx.db.mutation.user(
+        { where: { id } },
+        info
+      )
+    },
     allProducts(parent, {}, ctx, info) {
       return ctx.db.query.products({}, info)
     },

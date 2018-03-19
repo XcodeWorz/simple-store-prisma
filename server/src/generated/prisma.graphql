@@ -5,6 +5,18 @@
 # Model Types
 #
 
+type Cart implements Node {
+  id: ID!
+  user(where: UserWhereInput): User
+  products(where: CartProductWhereInput, orderBy: CartProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CartProduct!]
+}
+
+type CartProduct implements Node {
+  id: ID!
+  cart(where: CartWhereInput): Cart!
+  product(where: ProductWhereInput): Product!
+}
+
 type Product implements Node {
   id: ID!
   name: String!
@@ -18,12 +30,21 @@ type User implements Node {
   name: String!
   email: String!
   pw: String!
+  cart(where: CartWhereInput): Cart
 }
 
 
 #
 # Other Types
 #
+
+type AggregateCart {
+  count: Int!
+}
+
+type AggregateCartProduct {
+  count: Int!
+}
 
 type AggregateProduct {
   count: Int!
@@ -41,6 +62,408 @@ type BatchPayload {
 }
 
 """
+A connection to a list of items.
+"""
+type CartConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  """
+  A list of edges.
+  """
+  edges: [CartEdge]!
+  aggregate: AggregateCart!
+}
+
+input CartCreateInput {
+  user: UserCreateOneWithoutCartInput
+  products: CartProductCreateManyWithoutCartInput
+}
+
+input CartCreateOneWithoutProductsInput {
+  create: CartCreateWithoutProductsInput
+  connect: CartWhereUniqueInput
+}
+
+input CartCreateOneWithoutUserInput {
+  create: CartCreateWithoutUserInput
+  connect: CartWhereUniqueInput
+}
+
+input CartCreateWithoutProductsInput {
+  user: UserCreateOneWithoutCartInput
+}
+
+input CartCreateWithoutUserInput {
+  products: CartProductCreateManyWithoutCartInput
+}
+
+"""
+An edge in a connection.
+"""
+type CartEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: Cart!
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
+enum CartOrderByInput {
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type CartPreviousValues {
+  id: ID!
+}
+
+"""
+A connection to a list of items.
+"""
+type CartProductConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  """
+  A list of edges.
+  """
+  edges: [CartProductEdge]!
+  aggregate: AggregateCartProduct!
+}
+
+input CartProductCreateInput {
+  cart: CartCreateOneWithoutProductsInput!
+  product: ProductCreateOneInput!
+}
+
+input CartProductCreateManyWithoutCartInput {
+  create: [CartProductCreateWithoutCartInput!]
+  connect: [CartProductWhereUniqueInput!]
+}
+
+input CartProductCreateWithoutCartInput {
+  product: ProductCreateOneInput!
+}
+
+"""
+An edge in a connection.
+"""
+type CartProductEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: CartProduct!
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
+enum CartProductOrderByInput {
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type CartProductPreviousValues {
+  id: ID!
+}
+
+type CartProductSubscriptionPayload {
+  mutation: MutationType!
+  node: CartProduct
+  updatedFields: [String!]
+  previousValues: CartProductPreviousValues
+}
+
+input CartProductSubscriptionWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [CartProductSubscriptionWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [CartProductSubscriptionWhereInput!]
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: CartProductWhereInput
+}
+
+input CartProductUpdateInput {
+  cart: CartUpdateOneWithoutProductsInput
+  product: ProductUpdateOneInput
+}
+
+input CartProductUpdateManyWithoutCartInput {
+  create: [CartProductCreateWithoutCartInput!]
+  connect: [CartProductWhereUniqueInput!]
+  disconnect: [CartProductWhereUniqueInput!]
+  delete: [CartProductWhereUniqueInput!]
+  update: [CartProductUpdateWithWhereUniqueWithoutCartInput!]
+  upsert: [CartProductUpsertWithWhereUniqueWithoutCartInput!]
+}
+
+input CartProductUpdateWithoutCartDataInput {
+  product: ProductUpdateOneInput
+}
+
+input CartProductUpdateWithWhereUniqueWithoutCartInput {
+  where: CartProductWhereUniqueInput!
+  data: CartProductUpdateWithoutCartDataInput!
+}
+
+input CartProductUpsertWithWhereUniqueWithoutCartInput {
+  where: CartProductWhereUniqueInput!
+  update: CartProductUpdateWithoutCartDataInput!
+  create: CartProductCreateWithoutCartInput!
+}
+
+input CartProductWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [CartProductWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [CartProductWhereInput!]
+  id: ID
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  cart: CartWhereInput
+  product: ProductWhereInput
+}
+
+input CartProductWhereUniqueInput {
+  id: ID
+}
+
+type CartSubscriptionPayload {
+  mutation: MutationType!
+  node: Cart
+  updatedFields: [String!]
+  previousValues: CartPreviousValues
+}
+
+input CartSubscriptionWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [CartSubscriptionWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [CartSubscriptionWhereInput!]
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: CartWhereInput
+}
+
+input CartUpdateInput {
+  user: UserUpdateOneWithoutCartInput
+  products: CartProductUpdateManyWithoutCartInput
+}
+
+input CartUpdateOneWithoutProductsInput {
+  create: CartCreateWithoutProductsInput
+  connect: CartWhereUniqueInput
+  delete: Boolean
+  update: CartUpdateWithoutProductsDataInput
+  upsert: CartUpsertWithoutProductsInput
+}
+
+input CartUpdateOneWithoutUserInput {
+  create: CartCreateWithoutUserInput
+  connect: CartWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: CartUpdateWithoutUserDataInput
+  upsert: CartUpsertWithoutUserInput
+}
+
+input CartUpdateWithoutProductsDataInput {
+  user: UserUpdateOneWithoutCartInput
+}
+
+input CartUpdateWithoutUserDataInput {
+  products: CartProductUpdateManyWithoutCartInput
+}
+
+input CartUpsertWithoutProductsInput {
+  update: CartUpdateWithoutProductsDataInput!
+  create: CartCreateWithoutProductsInput!
+}
+
+input CartUpsertWithoutUserInput {
+  update: CartUpdateWithoutUserDataInput!
+  create: CartCreateWithoutUserInput!
+}
+
+input CartWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [CartWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [CartWhereInput!]
+  id: ID
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  user: UserWhereInput
+  products_every: CartProductWhereInput
+  products_some: CartProductWhereInput
+  products_none: CartProductWhereInput
+}
+
+input CartWhereUniqueInput {
+  id: ID
+}
+
+"""
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
 """
@@ -48,16 +471,28 @@ scalar Long
 
 type Mutation {
   createUser(data: UserCreateInput!): User!
+  createCart(data: CartCreateInput!): Cart!
+  createCartProduct(data: CartProductCreateInput!): CartProduct!
   createProduct(data: ProductCreateInput!): Product!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateCart(data: CartUpdateInput!, where: CartWhereUniqueInput!): Cart
+  updateCartProduct(data: CartProductUpdateInput!, where: CartProductWhereUniqueInput!): CartProduct
   updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteCart(where: CartWhereUniqueInput!): Cart
+  deleteCartProduct(where: CartProductWhereUniqueInput!): CartProduct
   deleteProduct(where: ProductWhereUniqueInput!): Product
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertCart(where: CartWhereUniqueInput!, create: CartCreateInput!, update: CartUpdateInput!): Cart!
+  upsertCartProduct(where: CartProductWhereUniqueInput!, create: CartProductCreateInput!, update: CartProductUpdateInput!): CartProduct!
   upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput!): BatchPayload!
+  updateManyCarts(data: CartUpdateInput!, where: CartWhereInput!): BatchPayload!
+  updateManyCartProducts(data: CartProductUpdateInput!, where: CartProductWhereInput!): BatchPayload!
   updateManyProducts(data: ProductUpdateInput!, where: ProductWhereInput!): BatchPayload!
   deleteManyUsers(where: UserWhereInput!): BatchPayload!
+  deleteManyCarts(where: CartWhereInput!): BatchPayload!
+  deleteManyCartProducts(where: CartProductWhereInput!): BatchPayload!
   deleteManyProducts(where: ProductWhereInput!): BatchPayload!
 }
 
@@ -119,6 +554,11 @@ input ProductCreateInput {
   imgURL: String
   desc: String!
   price: Float!
+}
+
+input ProductCreateOneInput {
+  create: ProductCreateInput
+  connect: ProductWhereUniqueInput
 }
 
 """
@@ -195,11 +635,31 @@ input ProductSubscriptionWhereInput {
   node: ProductWhereInput
 }
 
+input ProductUpdateDataInput {
+  name: String
+  imgURL: String
+  desc: String
+  price: Float
+}
+
 input ProductUpdateInput {
   name: String
   imgURL: String
   desc: String
   price: Float
+}
+
+input ProductUpdateOneInput {
+  create: ProductCreateInput
+  connect: ProductWhereUniqueInput
+  delete: Boolean
+  update: ProductUpdateDataInput
+  upsert: ProductUpsertNestedInput
+}
+
+input ProductUpsertNestedInput {
+  update: ProductUpdateDataInput!
+  create: ProductCreateInput!
 }
 
 input ProductWhereInput {
@@ -461,10 +921,16 @@ input ProductWhereUniqueInput {
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  carts(where: CartWhereInput, orderBy: CartOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Cart]!
+  cartProducts(where: CartProductWhereInput, orderBy: CartProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CartProduct]!
   products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
   user(where: UserWhereUniqueInput!): User
+  cart(where: CartWhereUniqueInput!): Cart
+  cartProduct(where: CartProductWhereUniqueInput!): CartProduct
   product(where: ProductWhereUniqueInput!): Product
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  cartsConnection(where: CartWhereInput, orderBy: CartOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CartConnection!
+  cartProductsConnection(where: CartProductWhereInput, orderBy: CartProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CartProductConnection!
   productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
   """
   Fetches an object given its ID
@@ -477,6 +943,8 @@ type Query {
 
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  cart(where: CartSubscriptionWhereInput): CartSubscriptionPayload
+  cartProduct(where: CartProductSubscriptionWhereInput): CartProductSubscriptionPayload
   product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
 }
 
@@ -496,6 +964,18 @@ type UserConnection {
 }
 
 input UserCreateInput {
+  name: String!
+  email: String!
+  pw: String!
+  cart: CartCreateOneWithoutUserInput
+}
+
+input UserCreateOneWithoutCartInput {
+  create: UserCreateWithoutCartInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutCartInput {
   name: String!
   email: String!
   pw: String!
@@ -576,6 +1056,27 @@ input UserUpdateInput {
   name: String
   email: String
   pw: String
+  cart: CartUpdateOneWithoutUserInput
+}
+
+input UserUpdateOneWithoutCartInput {
+  create: UserCreateWithoutCartInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateWithoutCartDataInput
+  upsert: UserUpsertWithoutCartInput
+}
+
+input UserUpdateWithoutCartDataInput {
+  name: String
+  email: String
+  pw: String
+}
+
+input UserUpsertWithoutCartInput {
+  update: UserUpdateWithoutCartDataInput!
+  create: UserCreateWithoutCartInput!
 }
 
 input UserWhereInput {
@@ -799,6 +1300,7 @@ input UserWhereInput {
   All values not ending with the given string.
   """
   pw_not_ends_with: String
+  cart: CartWhereInput
 }
 
 input UserWhereUniqueInput {
