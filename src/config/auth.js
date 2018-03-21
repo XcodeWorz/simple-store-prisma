@@ -33,7 +33,7 @@ export const login = async (email,pw) => {
     Storage.save('token', r.data.login.token)
     window.location.replace(`/users/${r.data.login.user.id}`)
   })
-  .catch(err => console.log(err))
+  .catch(err => {console.log(err)})
 }
 
 //logout clears localstorage and apollo's redux obj
@@ -48,7 +48,7 @@ export const logout = () => {
     .catch(err => console.error('Logout failed', err))
 }
 
-//returns boolean based on wether a login token is present in local storage
+//returns boolean based on whether a login token is present in local storage
 export const isAuthenticated = () => {
   try {
     if (!Storage.itemByKey('token')) return false
