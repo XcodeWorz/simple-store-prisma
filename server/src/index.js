@@ -1,6 +1,7 @@
 const { GraphQLServer } = require('graphql-yoga')
 const { Prisma } = require('prisma-binding')
 const { auth } = require('./resolvers/auth')
+const { cart } = require('./resolvers/cart')
 
 const resolvers = {
   Query: {
@@ -22,15 +23,29 @@ const resolvers = {
         info
       )
     },
+    cartProduct(parent, { id }, ctx, info){
+      return ctx.db.mutation.cartProduct(
+        { where: { id } },
+        info
+      )
+    },
     allProducts(parent, {}, ctx, info) {
       return ctx.db.query.products({}, info)
     },
     allUsers(parent, {}, ctx, info) {
       return ctx.db.query.users({}, info)
+    },
+    async allProductsInCart(parent, { id }, ctx, info){
+      const cart = await ctx.db.mutation.cart(
+        { where: { id } },
+        info
+      )
+      return cart.products
     }
   },
   Mutation: {
     ...auth,
+    ...cart,
     updateUser(parent, { id, name, email, pw }, ctx, info) {
       return ctx.db.mutation.updateUser(
         {

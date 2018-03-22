@@ -50,7 +50,7 @@ class CreateProduct extends Component {
                    onChange={e => this.setState({ price: e.target.value })}
                    required
                    type="number"
-                   min="0.00" step="0.10" max="30"
+                   min="0.00" step="0.10" max="300000000"
         />
         <RaisedButton label="Create"
                       type="submit"

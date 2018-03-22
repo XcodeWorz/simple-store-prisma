@@ -23,7 +23,7 @@ const ProductGrid = (allProducts) => (
     <GridList cols={4} cellHeight="auto" >
       <Subheader>Products</Subheader>
       {allProducts.map(product =>(
-          <GridTile className="tile">
+          <GridTile className="tile" key={product.id}>
               <Product cartView={false} product={product} key={product.id}/>
           </GridTile>
         )

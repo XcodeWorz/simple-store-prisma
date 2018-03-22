@@ -30,6 +30,7 @@ export class ModalButton extends Component {
         <RaisedButton primary={this.state.primary}
                       secondary={this.state.secondary}
                       label={label}
+                      className="button"
                       onClick={e => this.setState({ open: !this.state.open })} />
         <Dialog
           actions={<RaisedButton label='Close' onClick={e => this.setState({open: !this.state.open})}/>}

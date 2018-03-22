@@ -1,6 +1,13 @@
+.buttons {
+  display: flex;
+  justify-content: center;
+}
 .tile {
   margin: 10px;
   padding: 10px;
+}
+.product{
+  text-align: center;
 }
 img {
   width: 40%;

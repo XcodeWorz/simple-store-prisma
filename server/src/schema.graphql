@@ -4,8 +4,10 @@ type Query {
   user(id: ID!): User
   product(id: ID!): Product
   cart(user_id: ID!): Cart
+  cartProduct(id: ID!): CartProduct
   allProducts: [Product]
   allUsers: [User]
+  allProductsInCart(cart_id: ID!): [Product]
 }
 
 type Mutation {
