@@ -36,7 +36,7 @@ const resolvers = {
       return ctx.db.query.users({}, info)
     },
     async allProductsInCart(parent, { id }, ctx, info){
-      const cart = await ctx.db.mutation.cart(
+      const cart = await ctx.db.query.cart(
         { where: { id } },
         info
       )
@@ -88,8 +88,7 @@ const server = new GraphQLServer({
     ...req,
     db: new Prisma({
       typeDefs: 'src/generated/prisma.graphql',
-      // endpoint: 'https://us1.prisma.sh/public-viridianhealer-317/simple-store/dev',
-      endpoint: 'https://eu1.prisma.sh/public-crackquester-168/simple-store/dev',
+      endpoint: '',
       secret: 'mysecret123',
       debug: true,
     }),

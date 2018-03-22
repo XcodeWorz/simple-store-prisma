@@ -4,7 +4,7 @@ import {graphql} from 'react-apollo'
 import RaisedButton from 'material-ui/RaisedButton'
 import {user_id} from '../../config/auth'
 
-class CheckoutButton extends Component {
+class CartButton extends Component {
   render(){
     return(
       <RaisedButton
@@ -32,4 +32,4 @@ const CLEAR_CART_MUTATION = gql`
   }
 `
 
-export default graphql(CLEAR_CART_MUTATION,{options:(props)=>({variables:{user_id}})})(CheckoutButton)
+export default graphql(CLEAR_CART_MUTATION,{options:(props)=>({variables:{user_id}})})(CartButton)

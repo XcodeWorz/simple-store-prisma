@@ -22,7 +22,8 @@ const cart = {
             }}
         },
         where: {id: user_id}
-      }, info, )
+      }, info,
+    )
     // const user = await ctx.db.query.user(
     //   { where: { id: user_id } },
     //   info
@@ -70,7 +71,8 @@ const cart = {
             create:{}
           }
         }
-      }, info, )
+      }, info,
+    )
   },
 }
 
